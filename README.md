@@ -21,3 +21,66 @@ environment. You can follow the official
 ### Documentation
 
 [Writing HT1632 driver for RTOS Zephyr and Nucleo STM32](http://hobby.farit.ru/ht1632-driver-rtos-zephyr-nucleo-stm32/).
+
+### Initialization
+
+The first step is to initialize the workspace folder (``my-workspace``) where
+the ``ht1632c`` and all Zephyr modules will be cloned. You can do
+that by running:
+
+```shell
+# initialize my-workspace for the ht1632c application (main branch)
+west init -m https://github.com/faritka/zephyr-ht1632c --mr main my-workspace
+# update Zephyr modules
+cd my-workspace
+west update
+```
+
+### Configuration
+
+Rename the sample overlay file `app/boards/nucleo_l452re.overlay` to `$BOARD.overlay`
+where `$BOARD` is your target board.
+
+Change the CS, WE, DATA pins in the overlay file to your liking.
+By default, the CS pin is connected to PB3, the WR pin to PB5, the DATA pin to PB4 on a Nucleo STM32 board.
+
+The commons-options is for different configurations:
+```shell
+0x00: N-MOS  opendrain output and 8 common option
+0x01: N-MOS  opendrain  output  and  16 common option
+0x10: P-MOS  opendrain output and 8 common option
+0x11: P-MOS  opendrain  output  and  16 common option
+```
+
+```shell
+/ {
+    ht1632c {
+        compatible = "holtek,ht1632c";
+        label = "HT1632C";
+        cs-gpios = <&gpiob 3 0>;
+        wr-gpios = <&gpiob 5 0>;
+        data-gpios = <&gpiob 4 0>;
+        commons-options = <0x00>;
+    };
+};
+```
+
+A testing program is provided in `app/src/main.c`.
+
+Change CONFIG_PM and CONFIG_PM_DEVICE in `app/prj.conf` to enable power management.
+
+### Build & Run
+
+The application can be built by running:
+
+```shell
+west build -b $BOARD -s app
+```
+
+where `$BOARD` is the target board.
+
+Once you have built the application you can flash it by running:
+
+```shell
+west flash
+```
