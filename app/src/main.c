@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Nordic Semiconductor ASA
+ * Copyright (c) 2021 Farit N
  * SPDX-License-Identifier: Apache-2.0
  */
 
