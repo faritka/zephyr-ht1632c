@@ -1,0 +1,21 @@
+/*
+ * Copyright (c) 2021 Nordic Semiconductor ASA
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/* This devicetree overlay file will be automatically picked by the Zephyr
+ * build system when building the sample for the nucleo_l452re board. It shows
+ * how the example-application can be built on sample boards already provided
+ * by Zephyr.
+ */
+
+/ {
+    ht1632c {
+        compatible = "holtek,ht1632c";
+        label = "HT1632C";
+        cs-gpios = <&gpiob 3 0>;
+        wr-gpios = <&gpiob 5 0>;
+        data-gpios = <&gpiob 4 0>;
+        commons-options = <0x00>;
+    };
+};

@@ -1,0 +1,34 @@
+# Copyright (c) 2021 Farit
+# SPDX-License-Identifier: Apache-2.0
+
+description:  Holtek HT1632C display controller
+
+compatible: "holtek,ht1632c"
+
+include: base.yaml
+
+properties:
+    cs-gpios:
+      type: phandle-array
+      required: true
+      description: GPIO to which the CS pin of HT1632C is connected.
+
+    wr-gpios:
+      type: phandle-array
+      required: true
+      description: GPIO to which the WR pin of HT1632C is connected.
+
+    data-gpios:
+      type: phandle-array
+      required: true
+      description: GPIO to which the DATA pin of HT1632C is connected.
+
+    commons-options:
+      type: int
+      required: false
+      default: 0x00
+      description: |
+        0x00: N-MOS  opendrain output and 8 common option
+        0x01: N-MOS  opendrain  output  and  16 common option
+        0x10: P-MOS  opendrain output and 8 common option
+        0x11: P-MOS  opendrain  output  and  16 common option

@@ -1,0 +1,7 @@
+# Copyright (c) 2021 Nordic Semiconductor ASA
+# SPDX-License-Identifier: Apache-2.0
+
+config HT1632C
+    bool "HT1632C display"
+    help
+      Enable HT1632C display
