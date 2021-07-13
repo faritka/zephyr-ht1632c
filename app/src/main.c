@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Farit N
+ * Copyright (c) 2021 Nordic Semiconductor ASA
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -53,11 +53,12 @@ void main(void)
     buf_desc.width = capabilities.x_resolution;
     buf_desc.height = capabilities.y_resolution;
 
-    printk("Display before  write");
-
     display_write(display_dev, 0, 0, &buf_desc, buf);
 
-    printk("Display after write");
+    for (int k = 0; k <= 255; k++) {
+        display_set_brightness(display_dev, k);
+        k_msleep(100);
+    }
 
 #ifdef CONFIG_PM_DEVICE
     k_msleep(10000);

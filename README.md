@@ -73,7 +73,7 @@ The commons-options is for different configurations:
 
 A testing program is provided in `app/src/main.c`.
 
-Change CONFIG_PM and CONFIG_PM_DEVICE in `app/prj.conf` to enable power management.
+Change CONFIG_PM and CONFIG_PM_DEVICE to `y` in `app/prj.conf` to enable power management.
 
 ### Build & Run
 
