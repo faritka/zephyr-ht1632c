@@ -25,7 +25,7 @@ properties:
 
     commons-options:
       type: int
-      required: false
+      required: true
       default: 0x00
       description: |
         0x00: N-MOS  opendrain output and 8 common option
