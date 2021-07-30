@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Nordic Semiconductor ASA
+ * Copyright (c) 2021 Farit N
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -19,9 +19,59 @@ LOG_MODULE_REGISTER(main, LOG_LEVEL_INF);
 
 #include <pm/device.h>
 
+#include "font_5x7.h"
+
+//The screen width
+#define APP_SCREEN_WIDTH 32
+
+/**
+ * Clears the screen buffer
+ */
+void clear_screen(uint8_t buf[])
+{
+    for (size_t i = 0; i < APP_SCREEN_WIDTH; i++) {
+        buf[i] = 0x00;
+    }
+}
+
+/**
+ * Draws a dot "." to an indicator with an LED for a dot
+ */
+void inline draw_dot(uint8_t buf[], const uint8_t font[][APP_FONT_WIDTH], uint8_t c, uint8_t x)
+{
+    buf[x] = font[c][0];
+}
+
+/**
+ * Draws a character at the position X
+ */
+void draw_char(uint8_t buf[], const uint8_t font[][APP_FONT_WIDTH], uint8_t c, uint8_t x) 
+{
+    // Convert the character to an index
+    c = c & 0x7F;
+    if (c < ' ') {
+        c = 0;
+/*
+    //A special case for the dot . character
+    } else if (c == '.') {
+        draw_dot(buf, font, (c - ' '), x - 1);
+        return;
+*/
+    } else {
+        c -= ' ';
+    }
+
+    printk("Character index: %d\n", c);
+
+    for (int i = x, j = 0; j < APP_FONT_WIDTH; i++, j++) {
+        buf[i] = font[c][j];
+        printk("i: %d, j: %d, char: %x\n", i, j, (unsigned char)font[c][j]);
+    }
+}
+
 void main(void)
 {
-    size_t buf_size = 32;
+    size_t buf_size = APP_SCREEN_WIDTH;
     uint8_t buf[buf_size];
 
     const struct device *display_dev;
@@ -40,6 +90,7 @@ void main(void)
     display_get_capabilities(display_dev, &capabilities);
     printk("Display width %d", capabilities.x_resolution);
     printk("Display height %d", capabilities.y_resolution);
+
 
     buf[0] = 0b00000000;
     buf[1] = 0b11111110;
@@ -66,6 +117,18 @@ void main(void)
     k_msleep(10000);
     pm_device_state_set(display_dev, PM_DEVICE_STATE_ACTIVE, NULL, NULL);
 #endif
+
+
+    const char *str = "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
+
+    for (size_t k = 0; k < 10; k++) {
+        for (size_t i = 0; i < strlen(str); i++) {
+            clear_screen(buf);
+            draw_char(buf, font, str[i], 1);
+            display_write(display_dev, 0, 0, &buf_desc, buf);
+            k_msleep(1000);
+        }
+    }
 
     return;
 }

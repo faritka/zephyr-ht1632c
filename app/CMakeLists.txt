@@ -1,7 +1,7 @@
 #-------------------------------------------------------------------------------
 # Zephyr Example Application
 #
-# Copyright (c) 2021 Nordic Semiconductor ASA
+# Copyright (c) 2021 
 # SPDX-License-Identifier: Apache-2.0
 
 cmake_minimum_required(VERSION 3.13.1)
