@@ -113,9 +113,9 @@ void main(void)
 
 #ifdef CONFIG_PM_DEVICE
     k_msleep(10000);
-    pm_device_state_set(display_dev, PM_DEVICE_STATE_OFF, NULL, NULL);
+    pm_device_state_set(display_dev, PM_DEVICE_STATE_OFF);
     k_msleep(10000);
-    pm_device_state_set(display_dev, PM_DEVICE_STATE_ACTIVE, NULL, NULL);
+    pm_device_state_set(display_dev, PM_DEVICE_STATE_ACTIVE);
 #endif
 
 

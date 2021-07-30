@@ -360,7 +360,7 @@ static void ht1632c_enter_sleep(struct ht1632c_data *data)
  * @retval 0 on success else negative errno code.
  */
 static int ht1632c_pm_control(const struct device *dev, uint32_t ctrl_command,
-        enum pm_device_state *state, pm_device_cb cb, void *arg)
+        enum pm_device_state *state)
 {
     int ret = 0;
     struct ht1632c_data *data = (struct ht1632c_data *)dev->data;
@@ -384,9 +384,6 @@ static int ht1632c_pm_control(const struct device *dev, uint32_t ctrl_command,
         ret = -EINVAL;
     }
 
-    if (cb != NULL) {
-        cb(dev, ret, state, arg);
-    }
     return ret;
 }
 #endif /* CONFIG_PM_DEVICE */
@@ -489,18 +486,6 @@ static int ht1632c_init(const struct device *dev)
     }
 
     ht1632c_write_command(data, commons_command);
-
-/*
-    uint8_t testdata = 0xCC;
-    while (1) {
-        ht1632c_write_test(data, testdata);
-        for (int k = 0; k <= 255; k++) {
-            ht1632c_set_brightness(dev, k);
-            k_msleep(100);
-        }
-        k_msleep(1000);
-    }
-*/
 
 #ifdef CONFIG_PM_DEVICE
     data->pm_state = PM_DEVICE_STATE_ACTIVE;
