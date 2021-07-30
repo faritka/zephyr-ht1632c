@@ -90,3 +90,5 @@ Once you have built the application you can flash it by running:
 ```shell
 west flash
 ```
+
+![HT1632C and Nucleo STM32](http://hobby.farit.ru/wp-content/uploads/2021/07/ht132c_sample.png)
